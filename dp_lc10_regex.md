@@ -45,3 +45,24 @@ bool isMatch(std::string s, std::string p) {
 - 如果模式串p的第$i+1$位为`'*'`时，有两种做法
   - 如果假设`'*'`左边的字母数为0，则模式串直接下移两位，变为模式串p的第$i+2$位，加入正在和主串s的第$j$位进行比较
   - 如果假设`'*'`左边的字母数为$n(n>0)$，则模式串首先需要满足两串的第一个字符匹配即`fsm == true;`，变为模式串p的第$i$位，加入正在和主串s的第$j+1$位进行比较
+
+```c++
+bool isMatch(std::string s, std::string p) {
+	if (p == "") return s == "";
+	
+	bool fsm = false;
+	fsm = s.size() >= 1 && (s[0] == p[0] || p[0] == '.');
+	
+	if (p.size() >= 2 && p[1] == '*') {
+		return fsm && isMatch(s.substr(1, s.size()), p) 
+			|| isMatch(s, p.substr(2, s.size()));
+	} else {
+		return fsm && isMatch(s.substr(1, s.size()),
+			p.substr(1, p.size()));
+	}
+}
+```
+
+想一下这个算法的复杂度，看下图
+
+![](https://github.com/swapfloor/blog/blob/main/images/dp_regex_lc_01.png)
