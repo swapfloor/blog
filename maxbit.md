@@ -8,7 +8,7 @@
 
 ```
 input:0x80000000
-output:
+output:32
 
 input:298
 output:9
