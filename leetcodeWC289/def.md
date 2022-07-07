@@ -56,3 +56,38 @@ cornered角落的，拐角的
 # d
 
 ## 题描
+
+给出一个从0开始的数组中各下标的父节点，0的父节点为-1，给出各下标对应的小写英文字符串，字符串构成一棵树。
+
+## 思路
+
+对一个结点，暴搜其子节点的链，取最长链和次长链的结点和加1。
+
+## 做法
+
+- 首先建邻接表，这个我惯性思维无向图建双边，其实只见一条父节点到儿子的边就好，原因：这题特殊在所有点都给出了父节点，比边的连接关系更加特殊。
+- 注意是相邻不相同字母，我以为是字母表中相邻字母🤣。
+
+```c++
+int ans = 0;
+int solve(int u, const std::vector<std::vector<int>>& g, const std::string& s) {
+	int d1 = 0, d2 = 0;
+	
+	for (auto v : g[u]) {
+		int d = solve(v, g, s);
+		
+		if (s[u] == s[v]) continue;
+		
+		if (d > d1) {
+			d2 = d1;
+			d1 = d;
+		} else if (d > d2) {
+			d2 = d;
+		}
+	}
+	
+	ans = std::max(ans, d1 + d2 + 1);
+		
+	return std::max(d1, d2) + 1;
+}
+```
