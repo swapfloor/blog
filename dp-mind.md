@@ -4,7 +4,7 @@
 
 [练习](https://leetcode.com/problems/longest-palindromic-substring/)
 
-![](dp0.png)
+![](https://github.com/swapfloor/blog/blob/main/images/dp0.png)
 
 dp问题有一个**重复计算的子结构**，本题也可以定义一个P(x, y)表示Sx...Sy是一个回文串。
 
