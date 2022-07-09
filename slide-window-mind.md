@@ -63,3 +63,35 @@ public:
     }
 };
 ```
+
+[实战练习](https://leetcode.com/contest/weekly-contest-275/problems/minimum-swaps-to-group-all-1s-together-ii/)
+
+仅会滑窗解决现在的竞赛很难，因为滑窗是一个解题模型，而解决这道练习需要有建模思维，比如交换0和1使得1在一起，可以逆推，如果使1在一起即将1的数目个连续序列中0替换成1。思维跟基础模型都很重要，前者需要主动训练，后者需要主动学习。
+
+我们可以枚举连续的窗口复杂度为O(n).
+
+算出每个窗口的1的总数就可以知道0的个数等于总共1的个数减去每个窗口1的总数，可以通过前缀和算出每个窗口的数量。
+
+```c++
+class Solution {
+public:
+    int minSwaps(vector<int>& nums) {
+        int ones = 0;
+        ones = accumulate(nums.begin(), nums.end(), ones);
+
+        nums.insert(nums.end(), nums.begin(), nums.end());
+
+        int n = nums.size();
+
+        vector<int> s(n + 2, 0);
+        for (int i = 0; i < n; i++) s[i + 1] = s[i] + nums[i];
+
+        int ans = 0;
+        for (int i = 1; i + ones - 1 <= n; i++) {
+            ans = max(ans, s[i + ones - 1] - s[i - 1]);
+        }
+
+        return ones - ans;
+    }
+};
+```
