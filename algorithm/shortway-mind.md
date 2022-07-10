@@ -264,3 +264,59 @@ int main() {
 	return 0;
 }
 ```
+
+## Floyd-Warshall算法
+
+可以解决任意两点最短路算法，不止局限与单源最短路（指dijkstra算法）
+
+### 复杂度
+
+time：O(N^3)
+space：O(N^2)
+
+N=500，显然是可以过的
+
+枚举一个中间点k，然后枚举u和v，公式$d(u, v) = min(d(u, v), d(u, k) + d(k, v))$
+
+### code
+
+```c++
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+const int N = 610, INF = 0x3f3f3f3f;
+
+int n, m;
+int d[N][N];
+
+int main() {
+	cin >> n >> m;
+	
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			d[i][j] = i == j ? 0 : INF;
+		}
+	}
+	
+	for (int i = 0; i < m; i++) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		d[a][b] = min(d[a][b], c);// 有向图
+	}
+	
+	for (int k = 1; k <= n; k++) {
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= n; j++) {
+				d[i][j] = min(d[i][j], d[i][k] + d[k][j]);// d(u, v) = min(d(u, v), d(u, k) + d(k, v))
+			} 
+		}
+	}
+	
+	if (d[1][n] == INF) cout << -1 << "\n";
+	else cout << d[1][n] << "\n";
+	
+	return 0;
+}
+```
