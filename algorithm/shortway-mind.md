@@ -143,6 +143,60 @@ int main() {
 
 [练习1368. Minimum Cost to Make at Least One Valid Path in a Grid](https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/)
 
+### 朴素dijkstra
+
+复杂度$O(m^nlog(mn))
+
+```c++
+typedef pair<int, int> PII;
+const int INF = 0x3f3f3f3f;
+class Solution {
+public:
+    int minCost(vector<vector<int>>& grid) {
+        const int dirs[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        int r = grid.size();
+        int c = grid[0].size();
+        int dist[r][c];
+        bool vis[r][c];
+        
+        memset(dist, 0x3f, sizeof dist);
+        memset(vis, 0, sizeof vis);
+
+        dist[0][0] = 0;
+
+        int p = r * c;
+        while (p--) {
+            int ux, uy, mind = INF;
+            for (int i = 0; i < r; i++) {
+                for (int j = 0; j < c; j++) {
+                    if (!vis[i][j] && dist[i][j] < mind) {
+                        ux = i, uy = j, mind = dist[i][j];
+                    }
+                }
+            }
+            
+            vis[ux][uy] = true;
+
+            for (int i = 0; i < 4; i++) {
+                int vx = ux + dirs[i][0];
+                int vy = uy + dirs[i][1];
+                bool cost = grid[ux][uy] != i + 1;
+                if (vx >= 0 && vx < r && vy >= 0 && vy < c && dist[vx][vy] > cost + dist[ux][uy]) {
+                    dist[vx][vy] = cost + dist[ux][uy];
+                }
+            }
+        }
+            
+        return dist[r - 1][c - 1];
+    }
+};
+```
+
+### dijkstra堆优化版
+
+复杂度：$O((m+n)log(mn))$
+
 ```c++
 /*
  * @lc app=leetcode.cn id=1368 lang=cpp
