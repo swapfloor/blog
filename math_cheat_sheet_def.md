@@ -64,6 +64,12 @@ long long sumOfQuareEven(int n) {
 }
 ```
 
+立方和：
+
+$$
+\sum_{k=1}^{n}k^3=\frac{1}{4}n^2(n+1)^2
+$$
+
 ```c++
 //计算[min(n,m),max(n,m)]段连续的整数中所有偶数的平方和以及所有奇数的立方和。
 #include<bits/stdc++.h>
