@@ -65,3 +65,38 @@ int main() {
 
 > 跟BIT非常像了吧。
 
+修改和查询的方式发生了改变
+
+```c++
+void modify(int l, int r, int value) {
+  	for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
+    	if (l&1) t[l++] += value;
+    	if (r&1) t[--r] += value;
+  	}
+}
+
+int query(int p) {
+	int res = 0;
+  	for (p += n; p > 0; p >>= 1) res += t[p];
+  	return res;
+}
+```
+
+query的速度并不很快，我们可以将所有修改传送到叶子上O(n)
+
+```c++
+void push() {
+  	for (int i = 1; i < n; ++i) {
+    	t[i<<1] += t[i];
+    	t[i<<1|1] += t[i];
+    	t[i] = 0;
+  	}
+}
+```
+
+但是单个元素的修改顺序不能影响结果，例如赋值就不可以这样做了。
+
+## 非交换组合函数
+
+当RSQ时满足，即只有add加法。它是可以交换的操作数的顺序不影响结果，同样适用于min和max
+
