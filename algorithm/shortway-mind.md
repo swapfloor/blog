@@ -145,7 +145,7 @@ int main() {
 
 ### 朴素dijkstra
 
-复杂度$O(mn \log(mn))$
+复杂度 $O(mn \log(mn))$
 
 ```c++
 typedef pair<int, int> PII;
@@ -195,7 +195,7 @@ public:
 
 ### dijkstra堆优化版
 
-复杂度：$O((m+n)log(mn))$
+复杂度： $O((m+n)\log(mn))$
 
 ```c++
 /*
